@@ -6,9 +6,16 @@ const Users = require('../models/users')
 
 
 router.delete('/', auth, async (req, res, next) => {
+    try {
+        let deleted = await Users.findByIdAndDelete(req.id.user_id)
 
-    await Users.findByIdAndDelete(req.id.user_id)
-    res.status(200).json({ message: 'ususario removido'})
+        if (deleted === null) { throw new Error('User not deleted') }
+
+        res.status(200).json({ message: 'User deleted'})
+
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
 });
 
 
