@@ -7,9 +7,6 @@ const Users = require('../models/users')
 const router = express.Router();
 
 
-const private_key = process.env.SECRET_KEY || 'secret';
-
-
 
 router.post('/', async (req, res, next) => {
     try {
@@ -28,7 +25,7 @@ router.post('/', async (req, res, next) => {
         //generating token after authenticating
         //gerando token depois de autenticar
         
-        const token = jwt.sign({ user_id: users._id }, private_key, { expiresIn: '1h' })
+        const token = jwt.sign({ user_id: users._id }, process.env.SECRET_KEY, { expiresIn: '1h' })
 
 
         res.status(200).json({ token: token })
